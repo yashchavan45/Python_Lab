@@ -72,7 +72,7 @@ while True:
         else:
             print("\n===== ALL ACCOUNTS =====")
             for account in accounts:
-                print(account.name, "-", "₹"+account.balance)
+                print(account.name, "-", f"₹{account.balance}")
 
     elif choice == "3":
         name = input("Enter account holder name: ")
