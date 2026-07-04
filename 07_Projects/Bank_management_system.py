@@ -1,43 +1,130 @@
-
-class Bankaccount:
-    def __init__(self, name, balance):  
+class BankAccount:
+    def __init__(self, name, balance):
         self.name = name
         self.balance = balance
+
     def deposit(self, amount):
         self.balance += amount
-        print("Deposit successful")
-        print("Current balance:", self.balance)
+        print("Deposit Successful")
+        print("Current Balance:", self.balance)
+
     def withdraw(self, amount):
         if amount > self.balance:
-            print("Insufficient balance!")
+            print("Insufficient Balance!")
         else:
             self.balance -= amount
-            print("Withdraw successful")
-            print("Current balance:", self.balance)
+            print("Withdraw Successful")
+            print("Current Balance:", self.balance)
+
     def check_balance(self):
         print("Available Balance:", self.balance)
-    def accountdetails(self):
-        print("===== ACCOUNT DETAILS =====")
-        print("Account Holder:",self.name)
-        print("Current Balance:",self.balance)
-ac_name = input("Enter account holder name: ")
-user1 = Bankaccount(ac_name,0)
-while True:
-    print("\n1. Deposit\n2. Withdraw\n3. Check Balance\n4. Account Details\n5. Exit")
-    n = input("Enter your choice: ")
 
-    if n == "1":
-        d = int(input("Enter deposit amount: "))
-        user1.deposit(d)
-    elif n == "2":
-        w = int(input("Enter withdraw amount: "))
-        user1.withdraw(w)
-    elif n == "3":
-        user1.check_balance()
-    elif n=="4":
-        user1.accountdetails()
-    elif n == "5":
-        print("Exiting... Goodbye!")
+    def account_details(self):
+        print("===== ACCOUNT DETAILS =====")
+        print("Account Holder:", self.name)
+        print("Current Balance:", self.balance)
+
+
+accounts = []
+
+
+def find_account(name):
+    for account in accounts:
+        if account.name == name:
+            return account
+    return None
+
+
+while True:
+    print("\n===== BANK MENU =====")
+    print("1. Create Account")
+    print("2. Show Accounts")
+    print("3. Deposit")
+    print("4. Withdraw")
+    print("5. Check Balance")
+    print("6. Account Details")
+    print("7. Delete Account")
+    print("8. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        name = input("Enter account holder name: ")
+
+        found = False
+
+        for account in accounts:
+            if account.name == name:
+                found = True
+                break
+
+        if found:
+            print("Account already exists.")
+        else:
+            start_bal = int(input("Enter starting balance: "))
+            user = BankAccount(name, start_bal)
+            accounts.append(user)
+            print("Account created successfully.")
+
+    elif choice == "2":
+        if not accounts:
+            print("No accounts found.")
+        else:
+            print("\n===== ALL ACCOUNTS =====")
+            for account in accounts:
+                print(account.name, "-", "₹"+account.balance)
+
+    elif choice == "3":
+        name = input("Enter account holder name: ")
+
+        account = find_account(name)
+
+        if account:
+            amount = int(input("Enter Deposit Amount: "))
+            account.deposit(amount)
+        else:
+            print("Account not found.")
+
+    elif choice == "4":
+        name = input("Enter account holder name: ")
+        account = find_account(name)
+
+        if account:
+            amount = int(input("Enter withdraw Amount: "))
+            account.withdraw(amount)
+        else:
+            print("Account not found.")
+
+    elif choice == "5":
+        name = input("Enter account holder name: ")
+
+        
+        account=find_account(name)
+        if account:
+            account.check_balance()
+        else:
+            print("Account not found.")
+
+    elif choice == "6":
+        name = input("Enter account holder name: ")
+
+        account=find_account(name)
+        account.account_details()
+
+    elif choice == "7":
+        name = input("Enter account holder name: ")
+
+        account = find_account(name)
+
+        if account:
+            accounts.remove(account)
+            print("Account deleted successfully.")
+        else:
+            print("Account not found.")
+
+    elif choice == "8":
+        print("Thank you for using our Bank!")
         break
+
     else:
-        print("Invalid choice. Please try again.")
+        print("Invalid Choice!")
